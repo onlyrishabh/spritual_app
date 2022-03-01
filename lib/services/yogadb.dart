@@ -29,36 +29,82 @@ class YogaDatabase{
     // id , bool(Seconds) , text
 
     await db.execute('''
-    CREATE TABLE BeginnerYoga(
+    CREATE TABLE ${YogaModel.YogaTable1}(
    ${YogaModel.IDName} $idType,
    ${YogaModel.YogaName} $textType,
    ${YogaModel.ImageName} $textType,
    ${YogaModel.SecondsOrNot} $boolType
-   ),
-   
-    ''');
+   )''');
+
+
+
+    await db.execute('''
+    CREATE TABLE ${YogaModel.YogaTable2}(
+   ${YogaModel.IDName} $idType,
+   ${YogaModel.YogaName} $textType,
+   ${YogaModel.ImageName} $textType,
+   ${YogaModel.SecondsOrNot} $boolType
+   )''');
+
+
+
+    await db.execute('''
+    CREATE TABLE ${YogaModel.YogaTable3}(
+   ${YogaModel.IDName} $idType,
+   ${YogaModel.YogaName} $textType,
+   ${YogaModel.ImageName} $textType,
+   ${YogaModel.SecondsOrNot} $boolType
+   )''');
+
+
+    await db.execute('''
+    CREATE TABLE ${YogaModel.YogaSummary}(
+   ${YogaModel.IDName} $idType,
+    ${YogaModel.YogaWorkOutName} $textType,
+   ${YogaModel.BackImg} $textType,
+   ${YogaModel.TimeTaken} $textType,
+   ${YogaModel.TotalNoOfWork} $textType,
+   )''');
+
   }
 
 
 
-  Future<Yoga?> Insert(Yoga yoga) async{
+  Future<Yoga?> Insert(Yoga yoga , String TableName) async{
 
     final db = await instance.database;
-    final id  = await db!.insert(YogaModel.YogaTable1, yoga.toJson());
+    final id  = await db!.insert(TableName, yoga.toJson());
     return yoga.copy(id:id);
   }
 
 
-  Future<List<Yoga>> readAllYoga() async{
+
+  Future<YogaSummary?> InsertYogaSum(YogaSummary yogasum) async{
+
+    final db = await instance.database;
+    final id  = await db!.insert(YogaModel.YogaSummary, yogasum.toJson());
+    return yogasum.copy(id:id);
+  }
+
+
+  Future<List<YogaSummary>> readAllYogaSum() async{
     final db = await instance.database;
     final orderBy = '${YogaModel.IDName} ASC';
-    final query_res = await db!.query(YogaModel.YogaTable1 , orderBy: orderBy);
+    final query_res = await db!.query(YogaModel.YogaSummary , orderBy: orderBy);
+    return query_res.map((json) => YogaSummary.fromJson(json)).toList();
+  }
+
+
+  Future<List<Yoga>> readAllYoga(String TableName) async{
+    final db = await instance.database;
+    final orderBy = '${YogaModel.IDName} ASC';
+    final query_res = await db!.query(TableName, orderBy: orderBy);
     return query_res.map((json) => Yoga.fromJson(json)).toList();
   }
 
-  Future<Yoga?> readOneYoga(int id) async{
+  Future<Yoga?> readOneYoga(int id,String TableName) async{
     final db = await instance.database;
-    final map = await db!.query(YogaModel.YogaTable1 , columns: YogaModel.YogaTable1ColumnName , where: '${YogaModel.IDName} = ?' , whereArgs: [id]);
+    final map = await db!.query(TableName, columns: YogaModel.YogaTable1ColumnName , where: '${YogaModel.IDName} = ?' , whereArgs: [id]);
     if(map.isNotEmpty){
       return Yoga.fromJson(map.first);
     }else{
