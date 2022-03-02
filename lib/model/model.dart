@@ -10,6 +10,7 @@ class YogaModel{
   static String IDName = "ID";
   static String YogaName = "YogaName";
   static String SecondsOrNot = "SecondsOrNot";
+  static String SecondsOrTimes = "SecondsOrTimes";
   static String ImageName = "ImageName";
   static List<String>? YogaTable1ColumnName = [YogaModel.IDName,YogaModel.SecondsOrNot,YogaModel.YogaName,YogaModel.ImageName];
 
@@ -22,25 +23,29 @@ class Yoga{
   final bool Seconds;
   final String YogaTitle;
   final String YogaImgUrl;
+  final String SecondsOrTimes;
 
   const Yoga({
     this.id,
     required this.Seconds,
     required this.YogaImgUrl,
-    required this.YogaTitle
+    required this.YogaTitle,
+    required this.SecondsOrTimes
 });
 
   Yoga copy({
   int? id,
     bool? Seconds,
     String? YogaTitle,
-    String? YogaImgUrl
+    String? YogaImgUrl,
+    String? SecondsOrTimes
 }){
     return Yoga(
       id: id?? this.id,
         Seconds: Seconds?? this.Seconds,
         YogaImgUrl: YogaImgUrl?? this.YogaImgUrl,
-         YogaTitle: YogaTitle?? this.YogaTitle);
+         YogaTitle: YogaTitle?? this.YogaTitle,
+    SecondsOrTimes: SecondsOrTimes?? this.SecondsOrTimes);
   }
 
 
@@ -50,7 +55,8 @@ class Yoga{
       id: json[YogaModel.IDName] as int?,
         Seconds: json[YogaModel.SecondsOrNot] == 1,
         YogaImgUrl: json[YogaModel.ImageName] as String,
-        YogaTitle: json[YogaModel.YogaName] as String);
+        YogaTitle: json[YogaModel.YogaName] as String,
+        SecondsOrTimes: json[YogaModel.SecondsOrTimes] as String);
   }
 
   Map<String , Object?> toJson(){
@@ -59,6 +65,7 @@ class Yoga{
       YogaModel.SecondsOrNot: Seconds?1:0,
       YogaModel.YogaName : YogaTitle,
       YogaModel.ImageName : YogaImgUrl,
+      YogaModel.SecondsOrTimes: SecondsOrTimes
     };
   }
 }

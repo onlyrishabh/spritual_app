@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_yoga/Screens/Startup.dart';
 import 'package:flutter_yoga/Widgets/CustomAppBar.dart';
 import 'package:flutter_yoga/Widgets/CustomDrawer.dart';
+import 'package:flutter_yoga/model/model.dart';
+import 'package:flutter_yoga/services/yogadb.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,6 +16,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _colorTween, _homeTween, _yogaTween, _iconTween, _drawerTween;
   late AnimationController _textAnimationController;
+
+  Future makeYogaEntry(Yoga yoga , String TableName) async {
+    await YogaDatabase.instance.Insert(yoga, TableName);
+
+  }
+
+  Future makeYogaSumEntry(YogaSummary yogaSummary) async {
+    await YogaDatabase.instance.InsertYogaSum(yogaSummary);
+
+  }
 
   @override
   void initState() {
@@ -32,6 +44,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     super.initState();
+
+    // CREATING ONE YOGA WORKOUT PACK
+    makeYogaSumEntry(YogaSummary(YogaWorkOutName: YogaModel.YogaTable1, BackImg: "BACKIMAGURL", TimeTaken: "36", TotalNoOfWork: "12"));
+    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL", YogaTitle: "Anulom Vilom", SecondsOrTimes: '30'), YogaModel.YogaTable1);
+    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL1", YogaTitle: "Kapalbhati", SecondsOrTimes: '15'), YogaModel.YogaTable1);
+    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL2", YogaTitle: "Pranam", SecondsOrTimes: '12'), YogaModel.YogaTable1);
+    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL3", YogaTitle: "Shwasari", SecondsOrTimes: '16'), YogaModel.YogaTable1);
+
+
+
+
   }
 
   bool scrollListner(ScrollNotification scrollNotification) {
