@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_yoga/Screens/Home.dart';
+import 'package:flutter_yoga/Screens/SplashScreen.dart';
 import 'package:flutter_yoga/Screens/Startup.dart';
 
 import 'Screens/Finish.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: SplashScreen(),
     );
   }
 }

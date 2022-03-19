@@ -12,7 +12,7 @@ class YogaModel{
   static String SecondsOrNot = "SecondsOrNot";
   static String SecondsOrTimes = "SecondsOrTimes";
   static String ImageName = "ImageName";
-  static List<String>? YogaTable1ColumnName = [YogaModel.IDName,YogaModel.SecondsOrNot,YogaModel.YogaName,YogaModel.ImageName];
+  static List<String>? YogaTable1ColumnName = [YogaModel.IDName,YogaModel.SecondsOrNot,YogaModel.YogaName,YogaModel.ImageName,YogaModel.SecondsOrTimes];
 
 }
 

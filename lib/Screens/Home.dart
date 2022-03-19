@@ -17,6 +17,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation _colorTween, _homeTween, _yogaTween, _iconTween, _drawerTween;
   late AnimationController _textAnimationController;
 
+
+
+
   Future makeYogaEntry(Yoga yoga , String TableName) async {
     await YogaDatabase.instance.Insert(yoga, TableName);
 
@@ -26,32 +29,42 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     await YogaDatabase.instance.InsertYogaSum(yogaSummary);
 
   }
+bool isLoading = true;
+late List<YogaSummary> yogasumlst;
+  Future readYogaSumEntry( ) async{
+    this.yogasumlst = await YogaDatabase.instance.readAllYogaSum();
+    isLoading = false;
+
+      print(yogasumlst[0].YogaWorkOutName.toString());
+
+  }
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
-        .animate(_animationController);
-    _iconTween = ColorTween(begin: Colors.white, end: Colors.lightBlue)
-        .animate(_animationController);
-    _drawerTween = ColorTween(begin: Colors.white, end: Colors.black)
-        .animate(_animationController);
-    _homeTween = ColorTween(begin: Colors.white, end: Colors.blue)
-        .animate(_animationController);
-    _yogaTween = ColorTween(begin: Colors.white, end: Colors.black)
-        .animate(_animationController);
-    _textAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
-    super.initState();
+      _animationController =
+          AnimationController(vsync: this, duration: Duration(seconds: 0));
+      _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
+          .animate(_animationController);
+      _iconTween = ColorTween(begin: Colors.white, end: Colors.lightBlue)
+          .animate(_animationController);
+      _drawerTween = ColorTween(begin: Colors.white, end: Colors.black)
+          .animate(_animationController);
+      _homeTween = ColorTween(begin: Colors.white, end: Colors.blue)
+          .animate(_animationController);
+      _yogaTween = ColorTween(begin: Colors.white, end: Colors.black)
+          .animate(_animationController);
+      _textAnimationController =
+          AnimationController(vsync: this, duration: Duration(seconds: 0));
+      super.initState();
 
     // CREATING ONE YOGA WORKOUT PACK
-    makeYogaSumEntry(YogaSummary(YogaWorkOutName: YogaModel.YogaTable1, BackImg: "BACKIMAGURL", TimeTaken: "36", TotalNoOfWork: "12"));
-    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL", YogaTitle: "Anulom Vilom", SecondsOrTimes: '30'), YogaModel.YogaTable1);
-    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL1", YogaTitle: "Kapalbhati", SecondsOrTimes: '15'), YogaModel.YogaTable1);
-    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL2", YogaTitle: "Pranam", SecondsOrTimes: '12'), YogaModel.YogaTable1);
-    makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "DUMMYURL3", YogaTitle: "Shwasari", SecondsOrTimes: '16'), YogaModel.YogaTable1);
+    // makeYogaSumEntry(YogaSummary(YogaWorkOutName: YogaModel.YogaTable1, BackImg: "BAhttps://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1220&q=80CKIMAGURL", TimeTaken: "36", TotalNoOfWork: "12"));
+    // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Anulom Vilom", SecondsOrTimes: '30'), YogaModel.YogaTable1);
+    // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Kapalbhati", SecondsOrTimes: '15'), YogaModel.YogaTable1);
+    // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Pranam", SecondsOrTimes: '12'), YogaModel.YogaTable1);
+    // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Shwasari", SecondsOrTimes: '16'), YogaModel.YogaTable1);
 
+readYogaSumEntry();
 
 
 
