@@ -4,6 +4,7 @@ class YogaModel{
   static String YogaTable3 = "KidsYoga";
   static String YogaSummary = "YogaSummary";
   static String YogaWorkOutName = "YogaWorkOutName";
+  static String YogaKeyWorkOuts = "YogaKey_WorkOuts";
   static String BackImg = "BackImg";
   static String TimeTaken = "TimeTaken";
   static String TotalNoOfWork = "TotalNoOfWork";
@@ -23,6 +24,7 @@ class Yoga{
   final int? id;
   final bool Seconds;
   final String YogaTitle;
+  final int? YogaKey_WorkOuts;
   final String YogaImgUrl;
   final String SecondsOrTimes;
 
@@ -30,6 +32,7 @@ class Yoga{
     this.id,
     required this.Seconds,
     required this.YogaImgUrl,
+    required this.YogaKey_WorkOuts,
     required this.YogaTitle,
     required this.SecondsOrTimes
 });
@@ -39,12 +42,14 @@ class Yoga{
     bool? Seconds,
     String? YogaTitle,
     String? YogaImgUrl,
+    int? YogaKey_WorkOuts,
     String? SecondsOrTimes
 }){
     return Yoga(
       id: id?? this.id,
         Seconds: Seconds?? this.Seconds,
         YogaImgUrl: YogaImgUrl?? this.YogaImgUrl,
+         YogaKey_WorkOuts: YogaKey_WorkOuts?? this.YogaKey_WorkOuts,
          YogaTitle: YogaTitle?? this.YogaTitle,
     SecondsOrTimes: SecondsOrTimes?? this.SecondsOrTimes);
   }
@@ -56,6 +61,7 @@ class Yoga{
       id: json[YogaModel.IDName] as int?,
         Seconds: json[YogaModel.SecondsOrNot] == 1,
         YogaImgUrl: json[YogaModel.ImageName] as String,
+        YogaKey_WorkOuts: json[YogaModel.YogaKeyWorkOuts] as int?,
         YogaTitle: json[YogaModel.YogaName] as String,
         SecondsOrTimes: json[YogaModel.SecondsOrTimes] as String);
   }
@@ -64,6 +70,7 @@ class Yoga{
     return{
       YogaModel.IDName : id,
       YogaModel.SecondsOrNot: Seconds?1:0,
+      YogaModel.YogaKeyWorkOuts : YogaKey_WorkOuts,
       YogaModel.YogaName : YogaTitle,
       YogaModel.ImageName : YogaImgUrl,
       YogaModel.SecondsOrTimes: SecondsOrTimes
