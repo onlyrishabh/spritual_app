@@ -36,7 +36,7 @@ class _StartupState extends State<Startup> {
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => rUready()));
+              context, MaterialPageRoute(builder: (context) => rUready(YogaTableName: widget.yogaSum.YogaWorkOutName,)));
         },
         child: Container(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
