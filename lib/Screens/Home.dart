@@ -64,8 +64,8 @@ late List<YogaSummary> yogasumlst;
       super.initState();
 
     // CREATING ONE YOGA WORKOUT PACK
-    // makeYogaEntry(Yoga(Seconds: false, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "SECOND ASAN", SecondsOrTimes: '16',  YogaKey_WorkOuts: 1), YogaModel.YogaTable1);
     // makeYogaSumEntry(YogaSummary(YogaWorkOutName: YogaModel.YogaTable1, BackImg: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1220&q=80CKIMAGURL", TimeTaken: "36", TotalNoOfWork: "12", yogakey: 1));
+    // makeYogaEntry(Yoga(Seconds: false, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "SECOND ASAN", SecondsOrTimes: '16',  YogaKey_WorkOuts: 1), YogaModel.YogaTable1);
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Anulom Vilom", SecondsOrTimes: '30', YogaKey_WorkOuts: 1), YogaModel.YogaTable1, );
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Kapalbhati", SecondsOrTimes: '15', YogaKey_WorkOuts: 1), YogaModel.YogaTable1 , );
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Pranam", SecondsOrTimes: '12', YogaKey_WorkOuts: 1), YogaModel.YogaTable1);

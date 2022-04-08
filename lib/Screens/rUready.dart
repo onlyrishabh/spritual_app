@@ -34,7 +34,7 @@ Spacer(),
                 alignment: Alignment.bottomLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10 , horizontal: 15),
-                    child: Text("Next: Anulom Vilom" , style: TextStyle(fontSize: 18 ,fontWeight: FontWeight.bold),),
+                    child: Text("Tip: Breath Slowly While Doing Streching Yoga,", style: TextStyle(fontSize: 13 ,fontWeight: FontWeight.bold),),
                   ))
 
             ],
