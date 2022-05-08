@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_yoga/Screens/Break.dart';
 import 'package:flutter_yoga/model/model.dart';
+import 'package:flutter_yoga/services/yogadb.dart';
 
 
 
@@ -11,13 +12,16 @@ import 'package:provider/provider.dart';
 class WorkOutDet extends StatelessWidget {
   List<Yoga> ListOfYoga;
   int yogaindex;
+
    WorkOutDet({
     required this.ListOfYoga,
-     required this.yogaindex
+     required this.yogaindex,
+
 });
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider<TimerModelSec>(
       create: (context)=>TimerModelSec(context , ListOfYoga , yogaindex+1) ,
       child: Scaffold(
@@ -110,6 +114,9 @@ class WorkOutDet extends StatelessWidget {
 
             Consumer<TimerModelSec>(
               builder: (context , myModel , child){
+
+
+
                 return  Visibility(
                     visible: myModel.visible,
                     child: Container(
@@ -123,11 +130,15 @@ class WorkOutDet extends StatelessWidget {
                           SizedBox(height: 10,),
                           Text("Yoga feels better" , style: TextStyle(fontSize: 13 , color: Colors.white),),
                           SizedBox(height: 30,),
-                          OutlinedButton(onPressed: (){}, child: Container(
+                          OutlinedButton(onPressed: (){
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WorkOutDet(ListOfYoga: ListOfYoga, yogaindex: 0,)));
+                          }, child: Container(
                             width: 180,
                             child: Text("Restart" , style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
                           ) ),
-                          OutlinedButton(onPressed: (){}, child: Container(
+                          OutlinedButton(onPressed: (){
+                            Navigator.pop(context);
+                          }, child: Container(
                             width: 180,
                             child: Text("Quit" , style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
                           ) ),
@@ -160,11 +171,11 @@ class TimerModelSec with ChangeNotifier{
 
   MyTimerSec(context, List<Yoga> ListOfYoga , int yogaindex) async{
     Timer.periodic(Duration(seconds: 1), (timer) {
-      countdown--;
+     visible ? countdown+0 : countdown--;
       notifyListeners();
       if(countdown == 0){
         timer.cancel();
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>BreakTime(
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(
 ListOfYoga: ListOfYoga, yogaindex: yogaindex
         )));
       }
@@ -183,4 +194,6 @@ ListOfYoga: ListOfYoga, yogaindex: yogaindex
     visible  =  false;
     notifyListeners();
   }
+
+
 }
