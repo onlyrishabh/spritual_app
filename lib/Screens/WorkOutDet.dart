@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_yoga/Screens/Break.dart';
+import 'package:flutter_yoga/Screens/Finish.dart';
 import 'package:flutter_yoga/model/model.dart';
 import 'package:flutter_yoga/services/yogadb.dart';
 
@@ -23,7 +24,7 @@ class WorkOutDet extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ChangeNotifierProvider<TimerModelSec>(
-      create: (context)=>TimerModelSec(context , ListOfYoga , yogaindex+1) ,
+      create: (context)=>TimerModelSec(context , ListOfYoga , yogaindex+1 ,ListOfYoga[yogaindex].SecondsOrTimes ) ,
       child: Scaffold(
         body: Stack(
           children: [
@@ -87,14 +88,33 @@ class WorkOutDet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         yogaindex !=0 ?
-                        TextButton(onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(ListOfYoga: ListOfYoga, yogaindex: yogaindex-1)));
-                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WorkOutDet(ListOfYoga: ListOfYoga, yogaindex: yogaindex-1)));
-                        }, child: Text("Previous" , style: TextStyle(fontSize: 16),)): Container(),
-                        yogaindex != ListOfYoga.length-1 ? TextButton(onPressed: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(ListOfYoga: ListOfYoga, yogaindex: yogaindex+1)));
-                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WorkOutDet(ListOfYoga: ListOfYoga, yogaindex: yogaindex+1)));
-                        }, child: Text("Next" , style: TextStyle(fontSize: 16),)) : Container()
+                        Consumer<TimerModelSec>(
+                          builder : (context ,myModel, child){
+                            return TextButton(onPressed: () async{
+                              myModel.Pass();
+                              await Future.delayed(Duration(seconds: 1));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(ListOfYoga: ListOfYoga, yogaindex: yogaindex-1)));
+                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WorkOutDet(ListOfYoga: ListOfYoga, yogaindex: yogaindex-1)));
+                            }, child: Text("Previous" , style: TextStyle(fontSize: 16),));
+                  }
+
+                        ): Container(),
+                        yogaindex != ListOfYoga.length-1 ?
+
+
+
+                        Consumer<TimerModelSec>(
+                          builder : (context , myModel , child){
+                            return TextButton(onPressed: () async{
+                        myModel.Pass();
+
+                        await Future.delayed(Duration(seconds: 1));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(ListOfYoga: ListOfYoga, yogaindex: yogaindex+1)));
+                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WorkOutDet(ListOfYoga: ListOfYoga, yogaindex: yogaindex+1)));
+                            }, child: Text("Next" , style: TextStyle(fontSize: 16),));
+                          }
+
+                        ) : Container()
                       ],
                     ),
                   ),          Divider( thickness: 2,),
@@ -159,34 +179,82 @@ class WorkOutDet extends StatelessWidget {
         ),
       ),);
   }
+
+
 }
 
-
 class TimerModelSec with ChangeNotifier{
-  TimerModelSec(context , List<Yoga> ListOfYoga , int yogaindex ){
+  TimerModelSec(context , List<Yoga> ListOfYoga , int yogaindex, countdown ){
+
+    setCDownValue(int.parse(countdown) , ListOfYoga[yogaindex - 1].Seconds);
+    CheckIfLast(yogaindex  >= ListOfYoga.length-1 );
     MyTimerSec(context , ListOfYoga , yogaindex);
+
+
   }
-  int countdown = 130;
+int countdown = 0;
+  bool isLast = false;
+  void CheckIfLast(bool Ans)
+  {
+    isLast = Ans;
+  }
+
+  void setCDownValue(int count, bool isSec ){
+
+    countdown = isSec ? count : 10000;
+
+  }
+
+
   bool visible = false;
+bool isPassed = false;
+
 
   MyTimerSec(context, List<Yoga> ListOfYoga , int yogaindex) async{
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(seconds: 1), (timer) async{
+
+
+
+
+      print(countdown);
+      print(isPassed);
      visible ? countdown+0 : countdown--;
       notifyListeners();
+
+
+
+
       if(countdown == 0){
         timer.cancel();
+
+        isLast ? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Finish())) :
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BreakTime(
 ListOfYoga: ListOfYoga, yogaindex: yogaindex
         )));
       }
+
+
+
+      else if(isPassed) {
+        timer.cancel();
+
+
+      }
+
+
+
     });
   }
 
 
 
-
   void show(){
     visible = true;
+    notifyListeners();
+  }
+
+  void Pass(){
+    isPassed = true;
     notifyListeners();
   }
 
