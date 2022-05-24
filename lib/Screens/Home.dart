@@ -3,66 +3,44 @@ import 'package:flutter_yoga/Screens/Startup.dart';
 import 'package:flutter_yoga/Widgets/CustomAppBar.dart';
 import 'package:flutter_yoga/Widgets/CustomDrawer.dart';
 import 'package:flutter_yoga/model/model.dart';
+import 'package:flutter_yoga/services/localdb.dart';
 import 'package:flutter_yoga/services/yogadb.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+
+
   late AnimationController _animationController;
   late Animation _colorTween, _homeTween, _yogaTween, _iconTween, _drawerTween;
   late AnimationController _textAnimationController;
-
-
-
-
   Future makeYogaEntry(Yoga yoga , String TableName) async {
     await YogaDatabase.instance.Insert(yoga, TableName);
-
   }
-
   Future makeYogaSumEntry(YogaSummary yogaSummary) async {
     await YogaDatabase.instance.InsertYogaSum(yogaSummary);
-
   }
 bool isLoading = true;
 late List<YogaSummary> yogasumlst;
-
   Future readYogaSumEntry() async{
-
     this.yogasumlst = await YogaDatabase.instance.readAllYogaSum();
-    print(yogasumlst);
-    setState(() {
-
-
-    isLoading = false;
-    });
-
-
+    setState(() {isLoading = false;});
   }
-
   @override
   void initState() {
-      _animationController =
-          AnimationController(vsync: this, duration: Duration(seconds: 0));
-      _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
-          .animate(_animationController);
-      _iconTween = ColorTween(begin: Colors.white, end: Colors.lightBlue)
-          .animate(_animationController);
-      _drawerTween = ColorTween(begin: Colors.white, end: Colors.black)
-          .animate(_animationController);
-      _homeTween = ColorTween(begin: Colors.white, end: Colors.blue)
-          .animate(_animationController);
-      _yogaTween = ColorTween(begin: Colors.white, end: Colors.black)
-          .animate(_animationController);
-      _textAnimationController =
-          AnimationController(vsync: this, duration: Duration(seconds: 0));
+      _animationController = AnimationController(vsync: this, duration: Duration(seconds: 0));
+      _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white).animate(_animationController);
+      _iconTween = ColorTween(begin: Colors.white, end: Colors.lightBlue).animate(_animationController);
+      _drawerTween = ColorTween(begin: Colors.white, end: Colors.black).animate(_animationController);
+      _homeTween = ColorTween(begin: Colors.white, end: Colors.blue).animate(_animationController);
+      _yogaTween = ColorTween(begin: Colors.white, end: Colors.black).animate(_animationController);
+      _textAnimationController = AnimationController(vsync: this, duration: Duration(seconds: 0));
       super.initState();
-
+      GetFitnessData();
     // CREATING ONE YOGA WORKOUT PACK
     // makeYogaSumEntry(YogaSummary(YogaWorkOutName: YogaModel.YogaTable1, BackImg: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1220&q=80CKIMAGURL", TimeTaken: "36", TotalNoOfWork: "12", yogakey: 1));
     // makeYogaEntry(Yoga(Seconds: false, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "SECOND ASAN", SecondsOrTimes: '16',  YogaKey_WorkOuts: 1), YogaModel.YogaTable1);
@@ -70,12 +48,22 @@ late List<YogaSummary> yogasumlst;
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Kapalbhati", SecondsOrTimes: '15', YogaKey_WorkOuts: 1), YogaModel.YogaTable1 , );
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Pranam", SecondsOrTimes: '12', YogaKey_WorkOuts: 1), YogaModel.YogaTable1);
     // makeYogaEntry(Yoga(Seconds: true, YogaImgUrl: "https://images.squarespace-cdn.com/content/v1/5e13030d166215441db6be9c/1579169359456-Z0OGVGKO6LXEG4HZDJ3D/Yoga-Flow-Animation.gif?format=2500w", YogaTitle: "Shwasari", SecondsOrTimes: '16',  YogaKey_WorkOuts: 1), YogaModel.YogaTable1);
-
 readYogaSumEntry();
-
-
-
   }
+
+  int? streak;
+  int? kcal;
+  int? womin;
+  void GetFitnessData() async{
+
+    streak  = await LocalDB.getStreak();
+    kcal = await LocalDB.getKcal();
+    womin = await LocalDB.getWorkOutTime();
+    setState(() {
+
+    });
+  }
+
 
   bool scrollListner(ScrollNotification scrollNotification) {
     bool scroll = false;
@@ -87,10 +75,17 @@ readYogaSumEntry();
     return scroll;
   }
 
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return isLoading?Scaffold(body:Center()): Scaffold(
+
+
+
+    return isLoading
+        ?
+    Scaffold(body:Center())
+        : Scaffold(
       key: scaffoldKey,
       drawer: CustomDrawer(),
       backgroundColor: Colors.white,
@@ -121,20 +116,22 @@ readYogaSumEntry();
                                   Column(
                                     children: [
                                       Text(
-                                        "1",
+                                        streak.toString(),
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 23),
                                       ),
-                                      Text("Streak",
+                                      Text(
+                                          "Streak",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 13))
-                                    ],
+                                              fontSize: 13)
+)
+],
                                   ),
                                   Column(
                                     children: [
                                       Text(
-                                        "120",
+                                        kcal.toString(),
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 23),
                                       ),
@@ -147,14 +144,16 @@ readYogaSumEntry();
                                   Column(
                                     children: [
                                       Text(
-                                        "26",
+                                        womin.toString(),
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 23),
                                       ),
-                                      Text("Minutes",
+                                      Text(
+                                          "Minutes",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 13))
+                                              fontSize: 13)
+                                      )
                                     ],
                                   )
                                 ],
@@ -216,9 +215,7 @@ readYogaSumEntry();
                                               top: 38,
                                               child: Text(
                                                 yogasumlst[index].TimeTaken,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10),
+                                                style: TextStyle(color: Colors.white, fontSize: 10),
                                               ),
                                             )
                                           ],
