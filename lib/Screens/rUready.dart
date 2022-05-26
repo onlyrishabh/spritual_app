@@ -6,10 +6,21 @@ import 'package:flutter_yoga/Screens/WorkOutDet.dart';
 import 'package:flutter_yoga/model/model.dart';
 import 'package:flutter_yoga/services/yogadb.dart';
 import 'package:provider/provider.dart';
+import "dart:math";
 
 class rUready extends StatelessWidget {
   String YogaTableName;
    rUready({required this.YogaTableName});
+
+
+
+  T getRandomElement<T>(List<T> list) {
+    final random = new Random();
+    var i = random.nextInt(list.length);
+    return list[i];
+  }
+
+  var list = ['Create a comfortable spot for your yoga practice','Yoga can ease arthritis symptoms.','Yoga benefits heart health.','Yoga relaxes you, to help you sleep better.' , 'Yoga can mean more energy and brighter moods.' , 'Yoga helps you manage stress.'];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +45,7 @@ Spacer(),
                 alignment: Alignment.bottomLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10 , horizontal: 15),
-                    child: Text("Tip: Breath Slowly While Doing Streching Yoga,", style: TextStyle(fontSize: 13 ,fontWeight: FontWeight.bold),),
+                    child: Text("Tip: " + getRandomElement(list), style: TextStyle(fontSize: 13 ,fontWeight: FontWeight.bold),),
                   ))
 
             ],

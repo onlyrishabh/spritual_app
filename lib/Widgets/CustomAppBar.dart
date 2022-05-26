@@ -49,13 +49,12 @@ required this.yogaTween
             ],
           ),
           actions: [
-            Icon(Icons.notifications , color: iconTween.value,),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.black,
-              ),
-            )
+            IconButton(icon : Icon(Icons.notifications) ,onPressed: (){
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("No New Notifications"),
+              ));
+            }, color: iconTween.value,),
+
           ],
         ),
       ),

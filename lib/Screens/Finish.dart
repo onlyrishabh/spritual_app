@@ -75,7 +75,7 @@ class Finish extends StatelessWidget {
             ),
             Consumer<UpdateFitnessModel>(
               builder: (context , myModel , child){
-                return  Text(myModel.a.toString() ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 30 ,color: Colors.white),);
+                return  Container();
               },
 
             )
@@ -92,7 +92,7 @@ UpdateFitnessModel(){
   print("IT WORKS");
   SetWorkoutTime();
   LastWorkOutDoneOn();
-  SetMyKCAL(56);
+  SetMyKCAL(13);
 }
 int a = 1;
 
@@ -102,7 +102,11 @@ int a = 1;
 String? StartTime = await LocalDB.getStartTime();
     DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(StartTime ?? "2022-05-24 19:31:15.182");
 int difference = DateTime.now().difference(tempDate).inMinutes;
-LocalDB.setWorkOutTime(await LocalDB.getWorkOutTime() ?? 0 + difference);
+int? mywotime = await LocalDB.getWorkOutTime();
+print(mywotime);
+// LocalDB.setWorkOutTime( mywotime! + 59);
+LocalDB.setWorkOutTime( mywotime! + difference);
+
   }
 
 
@@ -114,17 +118,24 @@ print("LAST WORKOUT DOEN");
     int difference = DateTime.now().difference(tempDate).inDays;
     if(difference == 0){
       print("GOOD JOB");
+
+
     }else{
-      LocalDB.setStreak(await LocalDB.getStreak() ?? 0 +  1);
+      int? streaknow = await LocalDB.getStreak();
+      LocalDB.setStreak( streaknow! +  1);
 
     }
+
 await LocalDB.setLastDoneOn(DateTime.now().toString());
   }
 
 
   void SetMyKCAL(int myKCAL) async{
     print("SetMyKCAL");
-    LocalDB.setkcal(await LocalDB.getKcal() ?? 0 + myKCAL);
+    int? kcal = await LocalDB.getKcal();
+    print(kcal);
+    LocalDB.setkcal(kcal.toString() == "null" ? 0  : kcal! + myKCAL);
+
   }
 //TODO: Set the initial value of straek and lastdone on in starting of app
 }
